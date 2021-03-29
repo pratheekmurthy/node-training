@@ -1,0 +1,89 @@
+session-1
+
+In pure node environment es6 module loader do not work hence import don't work and we need to use require.
+
+To create a small server we use http module which provides a small module create server
+
+in backend we call request handlers and request listeners.
+
+types of functions
+1. functions.
+2.predicate functions (filter,find)
+3. pure functions.
+4.event handlers.
+5 .selectors
+
+index.js (file)
+
+createServer - takes two parameter requestobject  and responseobject for the callback function.
+
+within response object we have url property and we use end method of request.
+end method return value to front end
+
+server has method listen which listens to the data.
+listen takes two arguments 1: port or url. 2: listening callback function.
+
+Anychanges we make to source files we need to run server for implementing changes.
+
+
+session - 2
+
+using node js we can execute js code outside browser.
+we have node modlues like (fs (file system),http (http module), os (operating system)).
+
+using http module we can create webserver.
+using webserver we can send data across the server.
+
+for create server we have one parameter i.e, callback function which takes two parameters request and response.
+we cannot send object directly to browser so we need to stringify the object and send.
+
+inorder browser to listen server we use "server.listen" method.
+
+what is the drawback of http module and what is the use of using express ?
+
+ans : 1. we need to write multiple if else for each url.
+    2. everytime we send the data we need to manually transform the data.
+
+using the express js we can handle the incoming data .
+
+express is build on top of node http module with some common functionalities and additional features.
+
+express-server/index.js
+
+setting up express
+create package.json using npm  init -y
+npm install express
+
+package.json file consists of all the files details & we can write automation scripts using package.json.
+
+express is just a package.
+once we install express .express installs all the dependant modules.
+node js uses the common js module loader.
+
+express-server/index.js
+
+we import express using require and invoke express using app.
+we can assign port using process.env(port number).
+
+on our front end whenever a event occurs we write event listeners same way on backend we write request listeners whent a request comes.
+
+syntax for request listeners(express)
+
+eg:
+app.get('/',(request,response)=>{
+    response.send("welcome to the website")
+})
+
+whenever the sever sends a empty object it means that particular record does not exist.
+
+session -3
+
+To handle post,delete & put requests
+
+to read json data form the url we need enable express app to read data using middleware.
+we need to do it in app level
+app.use(express.json()) - it is the built in function
+
+utility tool : nodemon
+
+installation : sudo npm install -g nodemon
