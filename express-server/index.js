@@ -1,107 +1,79 @@
 const express = require('express')   //import express
+const mongoose = require('mongoose')
 const app = express()                 
-const port = 3010 
+const port = 3055
 
-//Middleware
-
+//configuration for data incoming
 app.use(express.json())
 
-const users =[
-    { id : 1 , name : 'pratheek' , role : 'software engineer' },
-    { id : 2 , name : 'Aditya' , role : 'software engineer' },
-    { id : 3 , name : 'selvam' , role : 'sr.software engineer' }
-]
+mongoose.connect('mongodb://localhost:27017/feb2020')
+    .then(()=>{
+        console.log('connected to db')
+    })
+    .catch((err)=>{
+        console.log('error in connecting db',err )
+    })
 
-const products = [
-    { id :1,name:"Benz",department : "automobiles"},
-    { id :1,name:"Coffee",department : "beverages"},
-    { id :1,name:"pen",department : "stationaries"}
-]
+//create a mongo schema
+const Schema = mongoose.Schema
+const taskSchema = new Schema({
+    title : {
+        type : String,
+        // required :true
+        required :[true,"title is mandatory"]
+    },
+    description : {
+        type : String,
+        required :true
+    },
+    completed : {
+        type : Boolean,
+        required :true
+    },
+    dueDate :{
+        type : Date,
+        required :true
+    },
+    createdAt : {
+        type : Date,
+        default : Date.now()
+    }
+})
+
+//create a model
+const Task = mongoose.model('Task',taskSchema)
+
+//tasks api
+app.get('/api/tasks', (req,res)=>{
+    Task.find()
+    .then((tasks)=>{
+        res.json(tasks)
+    })
+    .catch((err)=>{
+        res.json(err)
+    })
+
+})
+
+//add a task to db
+app.post('/api/tasks',(req,res)=>{
+    const body = req.body
+    const task = new Task(body)
+    task.save()
+        .then((task)=>{
+            res.json(task)
+        })
+        .catch((err)=>{
+            res.json(err)
+        })
+
+})
 
 app.get('/',(req,res)=>{
     res.send("welcome to our page")
 })
 
-app.get('/about',(req,res)=>{
-    res.send("This is about page")
-})
-
-app.get('/users',(req,res)=>{
-    res.json(users) // or we can send res.json(users)
-})
-
-// To get particular user record
-app.get('/users/:id',(req,res)=>{
-    const id = req.params.id
-    const user = users.filter((user)=>{
-        return user.id === Number(id)
-    })
-    if(user){
-        res.json(user)
-    }else {
-        res.json({})
-    }  
-
-})
-
-
-
-
-
-//To get particular data from name
-app.get('/users/name/:name',(req,res)=>{
-    const name = req.params.name
-    const user = users.filter((user)=>{
-        return user.name === name
-    })
-    if(user){
-        res.json(user)
-    }else {
-        res.json({})
-    }  
-
-})
-
-// To get all the products
-app.get('/products',(req,res)=>{
- res.json(products)
-})
-
-// Handle get ,post ,delete methods
-app.get("/api/students",(req,res)=>{
-    res.json({
-        message :`method -${req.method} ,url - ${req.url}`
-    })
-})
-
-app.post("/api/students", (req,res)=>{
-    const data = req.body
-    console.log(data);
-    res.json({
-        message :`method ${req.body.name} method ${JSON.stringify(data)} `
-    })
-})
-
-app.put("/api/students/:id", (req,res)=>{
-    const id  = req.params.id
-    const body = req.body
-    console.log(`id - ${id} , body -${JSON.stringify(body)}`);
-    res.json({
-        message :`method ${req.method} url ${req.url} `
-    })
-})
-
-app.delete("/api/students/:id", (req,res)=>{
-    const id  = req.params.id
-    // const body = req.body
-    console.log(`id - ${id} `);
-    res.json({
-        message :`method ${req.method} url ${req.url} `
-    })
-})
-
-
 
 app.listen(port,()=>{
-    console.log('listening on port ',port)
+    console.log('server is running on port ',port)
 })
