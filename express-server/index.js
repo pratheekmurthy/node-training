@@ -69,6 +69,44 @@ app.post('/api/tasks',(req,res)=>{
 
 })
 
+app.get('/api/tasks/:id',(req,res)=>{
+    const id =req.params.id
+    Task.findById(id)
+        .then((task)=>{
+            res.json(task)
+        })
+        .catch((err)=>{
+            res.json(err)
+        })
+})
+
+app.put('/api/tasks/:id',(req,res)=>{
+    const body = req.body
+    const id =req.params.id
+    
+    Task.findByIdAndUpdate(id,body,{new : true, runValidators: true})
+        .then((task)=>{
+            res.json(task)
+        })
+        .catch((err)=>{
+            res.json(err)
+        })
+
+})
+
+app.delete('/api/tasks/:id',(req,res)=>{
+    const id =req.params.id
+    
+    Task.findByIdAndDelete(id)
+        .then((task)=>{
+            res.json(task)
+        })
+        .catch((err)=>{
+            res.json(err)
+        })
+
+})
+
 app.get('/',(req,res)=>{
     res.send("welcome to our page")
 })

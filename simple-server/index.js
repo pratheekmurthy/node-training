@@ -13,6 +13,8 @@ const server = http.createServer((request,response)=>{
         response.end("this is our about page")
     }else if (request.url === '/users'){
         response.end(JSON.stringify(users))
+    }else if (request.url === '/pratheek'){
+        response.end(JSON.stringify(users))
     }else {
         response.end("hey this is not a valid url")
     }

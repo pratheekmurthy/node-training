@@ -87,3 +87,14 @@ app.use(express.json()) - it is the built in function
 utility tool : nodemon
 
 installation : sudo npm install -g nodemon
+
+
+
+
+
+
+
+is nodejs a programming language ??
+no node js is a runtime environment. it will allow us to execute javascript outside the browser. it contains v8 engine. 
+v8 is interpreter that is in chrome browser. apart from v8 it has some tools like http,fs,os module
+express is web framework
