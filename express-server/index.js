@@ -80,6 +80,10 @@ app.get('/api/tasks/:id',(req,res)=>{
         })
 })
 
+app.get('/',(req,res)=>{
+    res.send("hello world")
+})
+
 app.put('/api/tasks/:id',(req,res)=>{
     const body = req.body
     const id =req.params.id
