@@ -69,6 +69,7 @@ app.post('/api/tasks',(req,res)=>{
 
 })
 
+//get a task by ID
 app.get('/api/tasks/:id',(req,res)=>{
     const id =req.params.id
     Task.findById(id)
@@ -80,10 +81,8 @@ app.get('/api/tasks/:id',(req,res)=>{
         })
 })
 
-app.get('/',(req,res)=>{
-    res.send("hello world")
-})
 
+//update task 
 app.put('/api/tasks/:id',(req,res)=>{
     const body = req.body
     const id =req.params.id
@@ -98,6 +97,7 @@ app.put('/api/tasks/:id',(req,res)=>{
 
 })
 
+//delete a task
 app.delete('/api/tasks/:id',(req,res)=>{
     const id =req.params.id
     
